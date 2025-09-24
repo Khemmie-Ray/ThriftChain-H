@@ -1,0 +1,21 @@
+{
+    "0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38": {
+        "name": "Wrapped S",
+        "symbol": "wS",
+        "decimals": 18,
+        "address": "0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38"
+    },
+
+    "0xA4879Fed32Ecbef99399e5cbC247E533421C4eC6": {
+        "name": "USDC",
+        "symbol": "USDC",
+        "decimals": 18,
+        "address": "0xA4879Fed32Ecbef99399e5cbC247E533421C4eC6"
+    },
+    "0xAF93888cbD250300470A1618206e036E11470149": {
+        "name": "CORAL",
+        "symbol": "CORAL",
+        "decimals": 18,
+        "address": "0xAF93888cbD250300470A1618206e036E11470149"
+    } 
+}
