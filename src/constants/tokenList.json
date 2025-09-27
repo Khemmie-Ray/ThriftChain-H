@@ -1,21 +1,27 @@
 {
-    "0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38": {
-        "name": "Wrapped S",
-        "symbol": "wS",
+    "0x50207a7d76106bf63c1c4dee0bd0d72f912c9477": {
+        "name": "AgriSense AI Token",
+        "symbol": "ASAI",
         "decimals": 18,
-        "address": "0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38"
+        "address": "0x50207a7d76106bf63c1c4dee0bd0d72f912c9477"
     },
 
-    "0xA4879Fed32Ecbef99399e5cbC247E533421C4eC6": {
+    "0x0000000000000000000000000000000000581269": {
         "name": "USDC",
         "symbol": "USDC",
         "decimals": 18,
-        "address": "0xA4879Fed32Ecbef99399e5cbC247E533421C4eC6"
+        "address": "0x0000000000000000000000000000000000581269"
     },
-    "0xAF93888cbD250300470A1618206e036E11470149": {
-        "name": "CORAL",
-        "symbol": "CORAL",
+    "0x6811b2a3497188f68e677ed2339741a0f320f19e": {
+        "name": "Loyalty Points",
+        "symbol": "LP",
         "decimals": 18,
-        "address": "0xAF93888cbD250300470A1618206e036E11470149"
+        "address": "0x6811b2a3497188f68e677ed2339741a0f320f19e"
+    } ,
+     "0x07da4915da364bfbef7df743523047b4ba7085f0": {
+        "name": "AllWeather Finance Gold",
+        "symbol": "AWFGOLD",
+        "decimals": 18,
+        "address": "0x07da4915da364bfbef7df743523047b4ba7085f0"
     } 
 }
