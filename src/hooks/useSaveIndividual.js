@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useAppKitAccount, useAppKitNetwork } from "@reown/appkit/react";
-import {sonicBlazeTestnet  } from "@reown/appkit/networks";
+import {hederaTestnet  } from "@reown/appkit/networks";
 import { toast } from "react-toastify";
 import { ErrorDecoder } from "ethers-decode-error";
 import abi from "../constants/abi.json";
@@ -34,8 +34,8 @@ const useSaveIndividual = () => {
         return;
       }
 
-      if (Number(chainId) !== Number(sonicBlazeTestnet .id)) {
-        toast.error("You're not connected to Core Testnet2");
+      if (Number(chainId) !== Number(hederaTestnet .id)) {
+        toast.error("You're not connected to hedera Testnet");
         return;
       }
 

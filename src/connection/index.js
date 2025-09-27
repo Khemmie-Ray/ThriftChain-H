@@ -1,11 +1,11 @@
 import { createAppKit } from "@reown/appkit/react";
 import { EthersAdapter } from "@reown/appkit-adapter-ethers";
-import {sonicBlazeTestnet} from "@reown/appkit/networks";
+import {hederaTestnet} from "@reown/appkit/networks";
 
 // 1. Get projectId
 const projectId = import.meta.env.VITE_PROJECTID;
 
-const networks = [sonicBlazeTestnet];
+const networks = [hederaTestnet];
 
 // 3. Create a metadata object - optional
 const metadata = {
