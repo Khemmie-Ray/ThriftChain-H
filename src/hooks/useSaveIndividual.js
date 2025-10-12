@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useAppKitAccount, useAppKitNetwork } from "@reown/appkit/react";
-import {hederaTestnet  } from "@reown/appkit/networks";
+import { hederaTestnet } from "@reown/appkit/networks";
 import { toast } from "react-toastify";
 import { ErrorDecoder } from "ethers-decode-error";
 import abi from "../constants/abi.json";

@@ -1,12 +1,14 @@
 import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useState } from "react";
-import useRegister from '../../hooks/useRegister'
+import useRegister from "../../hooks/useRegister";
+import ButtonSpinner from "../loaders/ButtonSpinner";
 
 const RegisterModal = () => {
   let [isOpen, setIsOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [isLister, setIslister] = useState("");
   const handleRegister = useRegister();
+  const [loading, setLoading] = useState(false);
 
   function open() {
     setIsOpen(true);
@@ -17,13 +19,14 @@ const RegisterModal = () => {
   }
 
   const handleSignup = async () => {
+    setLoading(true);
     await handleRegister(username, isLister);
     setIslister("");
     setUsername("");
-    close()
+    setLoading(false);
+    close();
   };
 
- 
   return (
     <>
       <Button
@@ -67,16 +70,22 @@ const RegisterModal = () => {
                 onChange={(e) => setIslister(e.target.value)}
                 value={isLister}
               >
-                <option value={""} defaultChecked>No Option Yet</option>
+                <option value={""} defaultChecked>
+                  No Option Yet
+                </option>
                 <option value={true}>Yes</option>
                 <option value={false}>No</option>
               </select>
               <div className="mt-4">
                 <Button
-                  className="bg-linear-to-r from-primary to-lilac py-4 px-8 rounded-full font-[500] w-[100%]"
+                  className={`py-4 px-8 rounded-full font-[500] w-full bg-gradient-to-r hover:from-lightPurple hover:to-lilac cursor-pointer ${
+                    loading
+                      ? "from-lightPurple to-lilac"
+                      : "from-primary to-lilac"
+                  }`}
                   onClick={handleSignup}
                 >
-                  Register
+                  {!loading ? "Register" : <ButtonSpinner />}
                 </Button>
               </div>
             </DialogPanel>

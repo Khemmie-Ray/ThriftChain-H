@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
-import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import { Button } from "@headlessui/react";
 import { useAppKitAccount, useAppKitNetwork } from "@reown/appkit/react";
-import { coreTestnet2 } from "@reown/appkit/networks";
+import { hederaTestnet } from "@reown/appkit/networks";
 import { toast } from "react-toastify";
 import { ErrorDecoder } from "ethers-decode-error";
 import abi from "../../constants/singlethriftAbi.json";
@@ -14,10 +14,10 @@ const Saveindividual = ({ thriftAddress }) => {
   const { address } = useAppKitAccount();
   const errorDecoder = ErrorDecoder.create([abi]);
   const { signer } = useSignerOrProvider();
-  const [userAdd, setUserAdd] = useState(address);
   const [loading, setLoading] = useState(false)
 
   const contract = new ethers.Contract(thriftAddress, abi, signer);
+  const userAdd = address.toLowerCase()
 
   const handleSaveFor = useCallback(async () => {
     if (!userAdd) {
@@ -35,15 +35,15 @@ const Saveindividual = ({ thriftAddress }) => {
       return;
     }
 
-    if (Number(chainId) !== Number(coreTestnet2.id)) {
-      toast.error("You're not connected to Core Testnet2");
+    if (Number(chainId) !== Number(hederaTestnet.id)) {
+      toast.error("You're not connected to Hedera testnet");
       return;
     }
 
     try {
       setLoading(true)
 
-      const tx = await contract.saveForGoal(userAdd);
+      const tx = await contract.saveForGoal(address);
       console.log(tx);
       const receipt = await tx.wait();
 
@@ -57,6 +57,7 @@ const Saveindividual = ({ thriftAddress }) => {
       toast.error(`Savings failed - ${decodedError.reason}`, {
         position: "top-center",
       });
+      console.log(err)
     } finally {
         setLoading(false)
     }
@@ -66,7 +67,6 @@ const Saveindividual = ({ thriftAddress }) => {
     <>
         <input
           type="text"
-          placeholder="Enter User address"
           className="border mb-4 border-white/20 w-[100%] rounded-md hover:outline-0 p-3 hidden"
           readOnly
           value={userAdd}

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { DashNav, Button } from "../../components/shared/Reuse";
-import { ethers} from "ethers";
+import { DashNav } from "../../components/shared/Reuse";
+import { ethers } from "ethers";
 import useCreateThrift from "../../hooks/useCreateThrift";
 import { toast } from "react-toastify";
 import tokenList from "../../constants/tokenList.json";
 import { useNavigate } from "react-router";
+import ButtonSpinner from "../../components/loaders/ButtonSpinner";
 
 const CreateModule = () => {
   const [goalName, setGoalName] = useState("");
@@ -15,12 +16,25 @@ const CreateModule = () => {
   const [endTime, setEndTime] = useState("");
   const [participant, setParticipant] = useState(0);
   const navigate = useNavigate();
+  const [loading, setloading] = useState(false);
 
   const handleCreate = useCreateThrift();
 
   const handleCreateThrift = async () => {
     const startDate = Math.floor(new Date(startTime).getTime() / 1000);
     const endDate = Math.floor(new Date(endTime).getTime() / 1000);
+    // const selected = new Date(startTime);
+    // selected.setHours(0, 0, 0, 0);
+
+    // const today = new Date();
+    // today.setHours(0, 0, 0, 0);
+
+    // if (selected < today) {
+    //   toast.error("Start time cannot be in the past", {
+    //     position: "top-center",
+    //   });
+    //   return;
+    // }
 
     if (startDate <= Math.floor(Date.now() / 1000)) {
       toast.error("Start time cannot be in the past", {
@@ -36,6 +50,7 @@ const CreateModule = () => {
       return;
     }
 
+    setloading(true);
     const selectedToken = tokenList[vaultAddress];
     if (!selectedToken) {
       toast.error("Invalid token selected", {
@@ -48,7 +63,6 @@ const CreateModule = () => {
       goalAmount,
       selectedToken.decimals
     );
-
     await handleCreate(
       goalName,
       goalAmountInWei.toString(),
@@ -65,7 +79,8 @@ const CreateModule = () => {
     setEndTime("");
     setVaultAddress("");
     setSavingFrequency("");
-    navigate("/dashboard/individual-savings")
+    setloading(false);
+    navigate("/dashboard/individual-savings");
   };
 
   return (
@@ -81,9 +96,7 @@ const CreateModule = () => {
 
         <div className="w-[100%] lg:w-[50%] md:w-[60%] mx-auto my-8">
           <div className="my-4">
-            <label className="text-[14px] font-[500]">
-              Savings title
-            </label>
+            <label className="text-[14px] font-[500]">Savings title</label>
             <input
               type="text"
               value={goalName}
@@ -170,9 +183,11 @@ const CreateModule = () => {
           </div>
           <button
             onClick={handleCreateThrift}
-            className="bg-linear-to-r from-primary to-lilac font-[500] text-white py-3 px-6 mt-3 text-[16px] flex justify-center rounded-full hover:scale-105 items-center w-[100%]"
+            className={`rounded-full text-white py-3 px-6 mt-3 text-[16px] flex justify-center hover:scale-105 items-center w-[100%] font-[500] bg-gradient-to-r hover:from-lightPurple hover:to-lilac cursor-pointer ${
+              loading ? "from-lightPurple to-lilac" : "from-primary to-lilac"
+            }`}
           >
-            Create
+            {!loading ? "Create" : <ButtonSpinner />}
           </button>
         </div>
       </div>

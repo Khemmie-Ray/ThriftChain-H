@@ -6,7 +6,7 @@ import { useThriftData } from "../context/ThriftContextProvider";
 import useSignerOrProvider from "./useSignerOrProvider";
 import { Contract, Interface } from "ethers";
 
-const useFetchIndividual = () => {
+const useFetchnextTime = () => {
   const { allSingle, singleUser } = useThriftData();
   const { chainId } = useAppKitNetwork();
   const { readOnlyProvider } = useSignerOrProvider();
@@ -73,6 +73,7 @@ const useFetchIndividual = () => {
         multicallContract.tryAggregate.staticCall(true, singleUserCalls),
       ]);
 
+      // Decode and attach address
       const decodedAll = resultAll.map((res, idx) => ({
         address: normalizedAllSingle[idx],
         ...decodeThrift(res),
@@ -110,4 +111,4 @@ const useFetchIndividual = () => {
   };
 };
 
-export default useFetchIndividual;
+export default useFetchnextTime;

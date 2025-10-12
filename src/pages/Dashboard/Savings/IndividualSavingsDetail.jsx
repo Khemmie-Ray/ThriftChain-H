@@ -7,11 +7,10 @@ import { useParams, Link, useLocation } from "react-router";
 import useFetchIndividual from "../../../hooks/useFetchIndividual";
 import tokenList from "../../../constants/tokenList.json";
 import { formatUnits } from "ethers";
-import Save from "../../../components/dashboard/Save";
 import Loader from "../../../components/loaders/Loader";
 import Saveindividual from "../../../components/dashboard/Saveindividual";
-import { useAppKitAccount } from "@reown/appkit/react";
 import Withdraw from "../../../components/dashboard/Withdraw";
+import NextTime from "../../../components/dashboard/NextTime";
 
 const IndividualSavingsDetail = () => {
   const { id } = useParams();
@@ -84,11 +83,9 @@ const IndividualSavingsDetail = () => {
           <h2 className="lg:text-[28px] md:text-[28px] text-[20px] font-[600]">
             {selectedGoal.title}
           </h2>
+          <NextTime thriftAddress={thriftAddress} />
         </div>
         <div className="flex items-center">
-          <div className="w-2/5">
-          <Save />
-          </div>
           <div className="1/5">
           <Saveindividual thriftAddress={thriftAddress} />
           </div>
