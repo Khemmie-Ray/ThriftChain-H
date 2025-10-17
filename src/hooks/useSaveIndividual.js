@@ -17,6 +17,8 @@ const useSaveIndividual = () => {
   const { signer } = useSignerOrProvider()
   console.log(allSingle, singleUser)
 
+  
+
   return useCallback(
     async (username, assetLister) => {
       if (!username && !assetLister) {

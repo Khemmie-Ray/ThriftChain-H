@@ -17,11 +17,17 @@
         "symbol": "LP",
         "decimals": 18,
         "address": "0x6811b2a3497188f68e677ed2339741a0f320f19e"
-    } ,
+    },
      "0x07da4915da364bfbef7df743523047b4ba7085f0": {
         "name": "AllWeather Finance Gold",
         "symbol": "AWFGOLD",
         "decimals": 18,
         "address": "0x07da4915da364bfbef7df743523047b4ba7085f0"
+    },
+    "0x9C83a01982a35B66FcA966760296233959f485E6": {
+        "name": "MockToken",
+        "symbol": "MTK",
+        "decimals": 18,
+        "address": "0x9C83a01982a35B66FcA966760296233959f485E6"
     } 
 }

@@ -11,6 +11,7 @@ import Loader from "../../../components/loaders/Loader";
 import Saveindividual from "../../../components/dashboard/Saveindividual";
 import Withdraw from "../../../components/dashboard/Withdraw";
 import NextTime from "../../../components/dashboard/NextTime";
+import { getReadableDate } from "../../../components/shared/Reuse";
 
 const IndividualSavingsDetail = () => {
   const { id } = useParams();
@@ -21,8 +22,6 @@ const IndividualSavingsDetail = () => {
   if (!singleThriftUser || singleThriftUser.length === 0) {
     return <Loader />;
   }
-  console.log("Help:", thriftAddress)
-
 
   const selectedGoal = singleThriftUser?.find(
     (item) => item.goalId === Number(id)
@@ -43,16 +42,6 @@ const IndividualSavingsDetail = () => {
     );
   };
 
-  const getReadableDate = (timestamp) => {
-    if (!timestamp) return "-";
-    const date = new Date(Number(timestamp) * 1000);
-    return date.toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  };
-
   const goal = getReadableAmount(selectedGoal.goal, selectedGoal.currency);
   const saved = getReadableAmount(selectedGoal.saved, selectedGoal.currency);
   const percent =
@@ -64,6 +53,12 @@ const IndividualSavingsDetail = () => {
   const rawGoal = parseFloat(formatUnits(selectedGoal.goal, decimals));
   const rawSaved = parseFloat(formatUnits(selectedGoal.saved, decimals));
   const rawLeft = rawGoal - rawSaved;
+  const currencyAddress = selectedGoal.currency;
+  const tokenInfo = tokenList[currencyAddress];
+
+  const currency = tokenInfo
+    ? `${tokenInfo.symbol}`
+    : "Unknown Token";
 
   const displayLeft = rawLeft.toLocaleString(undefined, {
     maximumFractionDigits: 2,
@@ -83,14 +78,14 @@ const IndividualSavingsDetail = () => {
           <h2 className="lg:text-[28px] md:text-[28px] text-[20px] font-[600]">
             {selectedGoal.title}
           </h2>
-          <NextTime thriftAddress={thriftAddress} />
+          <NextTime thriftAddress={thriftAddress} end={selectedGoal.endDate} />
         </div>
         <div className="flex items-center">
           <div className="1/5">
-          <Saveindividual thriftAddress={thriftAddress} />
+            <Saveindividual thriftAddress={thriftAddress} />
           </div>
           <div className="1/5">
-          <Withdraw thriftAddress={thriftAddress} />
+            <Withdraw thriftAddress={thriftAddress} />
           </div>
         </div>
       </section>
@@ -103,7 +98,7 @@ const IndividualSavingsDetail = () => {
             <div className="w-[75%]">
               <h3 className="text-[14px] font-[600]">Overview</h3>
               <p className="text-[14px] text-grey">
-                ${saved} / <span>${goal}</span>
+                {saved} / <span>{goal} {currency}</span>
               </p>
               <input
                 type="range"
@@ -126,10 +121,10 @@ const IndividualSavingsDetail = () => {
               <h3 className="text-[14px] font-[600]">
                 Total amount contributed
               </h3>
-              <p className="text-[14px] text-grey">${saved}</p>
+              <p className="text-[14px] text-grey">{saved} {currency}</p>
 
               <p className="text-grey text-[12px]">
-                You have contributed ${saved}
+                You have contributed {saved} {currency}
               </p>
             </div>
           </div>
@@ -139,10 +134,10 @@ const IndividualSavingsDetail = () => {
             </div>
             <div className="w-[75%]">
               <h3 className="text-[14px] font-[600]">Total amount left</h3>
-              <p className="text-[14px] text-grey">${displayLeft}</p>
+              <p className="text-[14px] text-grey">{displayLeft} {currency}</p>
 
               <p className="text-grey text-[12px]">
-                You have ${displayLeft} left to meet your goals
+                You have {displayLeft} {currency} left to meet your goals
               </p>
             </div>
           </div>
