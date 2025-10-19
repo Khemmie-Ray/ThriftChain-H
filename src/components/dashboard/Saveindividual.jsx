@@ -10,12 +10,13 @@ import useSignerOrProvider from "../../hooks/useSignerOrProvider";
 import { Contract, ethers, parseUnits } from "ethers";
 import ButtonSpinner from "../loaders/ButtonSpinner";
 
-const Saveindividual = ({ thriftAddress }) => {
+const Saveindividual = ({ thriftAddress, amount }) => {
   const { chainId } = useAppKitNetwork();
   const { address } = useAppKitAccount();
   const errorDecoder = ErrorDecoder.create([abi]);
   const { signer } = useSignerOrProvider();
   const [loading, setLoading] = useState(false)
+  console.log(amount)
 
   const contract = new ethers.Contract(thriftAddress, abi, signer);
   const ercContract = new ethers.Contract(
@@ -50,8 +51,8 @@ const Saveindividual = ({ thriftAddress }) => {
       setLoading(true)
 
       const ercTx = await ercContract.approve(
-        import.meta.env.VITE_CONTRACT_ADDRESS,
-        ethers.parseUnits(depositAmount, 18)
+        import.meta.env.VITE_TOKEN_ADDRESS,
+        ethers.parseUnits(amount, 18)
       );
       const rcp = await ercTx.wait
       if (rcp.status) {
@@ -62,7 +63,6 @@ const Saveindividual = ({ thriftAddress }) => {
         toast.error("Approval failed!", {
           position: "top-center",
         });
-        throw new Error("Approval failed");
       }
 
       const tx = await contract.saveForGoal(address);
