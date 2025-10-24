@@ -24,10 +24,10 @@
         "decimals": 18,
         "address": "0x07da4915da364bfbef7df743523047b4ba7085f0"
     },
-    "0x9C83a01982a35B66FcA966760296233959f485E6": {
+    "0xe850E1BF5Cfb124B5D986A301e925aBBaDC34F9C": {
         "name": "MockToken",
         "symbol": "MTK",
         "decimals": 18,
-        "address": "0x9C83a01982a35B66FcA966760296233959f485E6"
+        "address": "0xe850E1BF5Cfb124B5D986A301e925aBBaDC34F9C"
     } 
 }

@@ -9,6 +9,7 @@ import tokenList from "../../../constants/tokenList.json";
 import { formatUnits } from "ethers";
 import Join from "../../../components/dashboard/Join";
 import Loader from "../../../components/loaders/Loader";
+import GroupNextTime from "../../../components/dashboard/GroupNextTime";
 
 const GroupDetails = () => {
   const { id } = useParams();
@@ -19,7 +20,7 @@ const GroupDetails = () => {
     return <Loader />;
   }
 
-  console.log(address)
+  console.log(address);
 
   const selectedGoal = groupThriftUser?.find(
     (item) => item.goalId === Number(id)
@@ -80,6 +81,10 @@ const GroupDetails = () => {
           <h2 className="lg:text-[28px] md:text-[28px] text-[20px] font-[600]">
             {selectedGoal.title}
           </h2>
+          <GroupNextTime
+            thriftAddress={thriftAddress}
+            end={selectedGoal.endDate}
+          />
         </div>
         <div className="flex items-center">
           <Join address={address} />

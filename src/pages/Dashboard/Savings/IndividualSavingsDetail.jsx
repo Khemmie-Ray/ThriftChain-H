@@ -22,7 +22,7 @@ const IndividualSavingsDetail = () => {
   if (!singleThriftUser || singleThriftUser.length === 0) {
     return <Loader />;
   }
-  console.log(thriftAddress)
+  console.log(thriftAddress);
 
   const selectedGoal = singleThriftUser?.find(
     (item) => item.goalId === Number(id)
@@ -43,8 +43,14 @@ const IndividualSavingsDetail = () => {
     );
   };
 
+  console.log("help", selectedGoal);
+
   const goal = getReadableAmount(selectedGoal.goal, selectedGoal.currency);
   const saved = getReadableAmount(selectedGoal.saved, selectedGoal.currency);
+  const amountToSave = getReadableAmount(
+    selectedGoal.amountPerPeriod,
+    selectedGoal.currency
+  );
   const percent =
     (parseFloat(selectedGoal.saved) / parseFloat(selectedGoal.goal)) * 100;
   const frequencyOptions = ["daily", "weekly", "bi-weekly", "monthly"];
@@ -57,9 +63,7 @@ const IndividualSavingsDetail = () => {
   const currencyAddress = selectedGoal.currency;
   const tokenInfo = tokenList[currencyAddress];
 
-  const currency = tokenInfo
-    ? `${tokenInfo.symbol}`
-    : "Unknown Token";
+  const currency = tokenInfo ? `${tokenInfo.symbol}` : "Unknown Token";
 
   const displayLeft = rawLeft.toLocaleString(undefined, {
     maximumFractionDigits: 2,
@@ -79,17 +83,21 @@ const IndividualSavingsDetail = () => {
           <h2 className="lg:text-[28px] md:text-[28px] text-[20px] font-[600]">
             {selectedGoal.title}
           </h2>
-          <NextTime thriftAddress={thriftAddress} end={selectedGoal.endDate} /> 
+          <NextTime thriftAddress={thriftAddress} end={selectedGoal.endDate} />
         </div>
         <div className="flex items-center">
           <div className="1/5">
-            <Saveindividual thriftAddress={thriftAddress} amount={selectedGoal.goal} />
+            <Saveindividual
+              thriftAddress={thriftAddress}
+              amount={selectedGoal.goal}
+            />
           </div>
           <div className="1/5">
             <Withdraw thriftAddress={thriftAddress} />
           </div>
         </div>
       </section>
+
       <section className="lg:px-8 md:px-8 px-4">
         <div className="w-[100%] flex justify-between items-center flex-col lg:flex-row md:flex-row mt-6 flex-wrap">
           <div className="flex items-center lg:w-[32%] md:w-[32%] w-[100%] mb-3 bg-white rounded-2xl p-3">
@@ -99,7 +107,10 @@ const IndividualSavingsDetail = () => {
             <div className="w-[75%]">
               <h3 className="text-[14px] font-[600]">Overview</h3>
               <p className="text-[14px] text-grey">
-                {saved} / <span>{goal} {currency}</span>
+                {saved} /{" "}
+                <span>
+                  {goal} {currency}
+                </span>
               </p>
               <input
                 type="range"
@@ -119,10 +130,27 @@ const IndividualSavingsDetail = () => {
               <BiLayout />
             </div>
             <div className="w-[75%]">
+              <h3 className="text-[14px] font-[600]">Amount to Save</h3>
+              <p className="text-[14px] text-grey">
+                {amountToSave} {currency}
+              </p>
+
+              <p className="text-grey text-[12px]">
+                You have contributed {saved} {currency}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center lg:w-[32%] md:w-[32%] w-[100%] mb-3 bg-white rounded-2xl p-3">
+            <div className="bg-[#EAE3F8] flex justify-center items-center p-1 text-primary rounded-full w-[40px] h-[40px] text-2xl mr-2">
+              <BiLayout />
+            </div>
+            <div className="w-[75%]">
               <h3 className="text-[14px] font-[600]">
                 Total amount contributed
               </h3>
-              <p className="text-[14px] text-grey">{saved} {currency}</p>
+              <p className="text-[14px] text-grey">
+                {saved} {currency}
+              </p>
 
               <p className="text-grey text-[12px]">
                 You have contributed {saved} {currency}
@@ -135,7 +163,9 @@ const IndividualSavingsDetail = () => {
             </div>
             <div className="w-[75%]">
               <h3 className="text-[14px] font-[600]">Total amount left</h3>
-              <p className="text-[14px] text-grey">{displayLeft} {currency}</p>
+              <p className="text-[14px] text-grey">
+                {displayLeft} {currency}
+              </p>
 
               <p className="text-grey text-[12px]">
                 You have {displayLeft} {currency} left to meet your goals
