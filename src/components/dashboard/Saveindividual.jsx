@@ -50,20 +50,20 @@ const Saveindividual = ({ thriftAddress, amount }) => {
     try {
       setLoading(true)
 
-      const ercTx = await ercContract.approve(
-        import.meta.env.VITE_TOKEN_ADDRESS,
-        ethers.parseUnits(amount, 18)
-      );
-      const rcp = await ercTx.wait
-      if (rcp.status) {
-        toast.success("Approval successful!", {
-          position: "top-center",
-        });
-      } else {
-        toast.error("Approval failed!", {
-          position: "top-center",
-        });
-      }
+      // const ercTx = await ercContract.approve(
+      //   import.meta.env.VITE_TOKEN_ADDRESS,
+      //   ethers.parseUnits(amount, 18)
+      // );
+      // const rcp = await ercTx.wait
+      // if (rcp.status) {
+      //   toast.success("Approval successful!", {
+      //     position: "top-center",
+      //   });
+      // } else {
+      //   toast.error("Approval failed!", {
+      //     position: "top-center",
+      //   });
+      // }
 
       const tx = await contract.saveForGoal(address);
       console.log(tx);

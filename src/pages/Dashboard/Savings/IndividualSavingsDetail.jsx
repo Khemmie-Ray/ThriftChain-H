@@ -22,6 +22,7 @@ const IndividualSavingsDetail = () => {
   if (!singleThriftUser || singleThriftUser.length === 0) {
     return <Loader />;
   }
+  console.log(thriftAddress)
 
   const selectedGoal = singleThriftUser?.find(
     (item) => item.goalId === Number(id)
