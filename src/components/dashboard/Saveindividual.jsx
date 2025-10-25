@@ -7,7 +7,7 @@ import { ErrorDecoder } from "ethers-decode-error";
 import abi from "../../constants/singlethriftAbi.json";
 import tokenAbi from "../../constants/tokenAbi.json"
 import useSignerOrProvider from "../../hooks/useSignerOrProvider";
-import { Contract, ethers, parseUnits } from "ethers";
+import { ethers } from "ethers";
 import ButtonSpinner from "../loaders/ButtonSpinner";
 
 const Saveindividual = ({ thriftAddress, amount }) => {
@@ -51,9 +51,10 @@ const Saveindividual = ({ thriftAddress, amount }) => {
       setLoading(true)
 
       const ercTx = await ercContract.approve(
-        import.meta.env.VITE_TOKEN_ADDRESS,
+        thriftAddress,
         ethers.parseUnits(amount, 18)
       );
+
       const rcp = await ercTx.wait()
       if (rcp.status) {
         toast.success("Approval successful!", {
@@ -66,7 +67,6 @@ const Saveindividual = ({ thriftAddress, amount }) => {
       }
 
       const tx = await contract.saveForGoal(address);
-      console.log(tx);
       const receipt = await tx.wait();
 
       if (receipt.status === 1) {

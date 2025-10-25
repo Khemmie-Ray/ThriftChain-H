@@ -8,7 +8,7 @@ import useSignerOrProvider from "../../hooks/useSignerOrProvider";
 import { ethers } from "ethers";
 import { BeatLoader } from "react-spinners";
 
-const Withdraw = ({ thriftAddress }) => {
+const EmergencyWithdraw = ({ thriftAddress }) => {
   const { chainId } = useAppKitNetwork();
   const { address } = useAppKitAccount();
   const errorDecoder = ErrorDecoder.create([abi]);
@@ -36,9 +36,10 @@ const Withdraw = ({ thriftAddress }) => {
     try {
       setLoading(true);
 
-      const tx = await contract.withdraw();
-      console.log(tx);
+      const tx = await contract.emergencyWithdrawal();
+      console.log("Transaction sent:", tx.hash);
       const receipt = await tx.wait();
+      console.log("Receipt:", receipt);
 
       if (receipt.status === 1) {
         toast.success("Withdraw successfully");
@@ -61,10 +62,14 @@ const Withdraw = ({ thriftAddress }) => {
         className="border border-primary py-3 px-6 flex justify-center items-center rounded-full text-[14px] font-[500] hover:scale-105 text-primary mb-3  ml-4"
         onClick={handleWithdraw}
       >
-        {!loading ? "Withdraw" : <BeatLoader color="#6138FE" size={15} />}
+        {!loading ? (
+          "Emergency Withdraw"
+        ) : (
+          <BeatLoader color="#6138FE" size={15} />
+        )}
       </button>
     </>
   );
 };
 
-export default Withdraw;
+export default EmergencyWithdraw;

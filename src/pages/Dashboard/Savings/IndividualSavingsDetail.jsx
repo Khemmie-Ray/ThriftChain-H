@@ -12,6 +12,7 @@ import Saveindividual from "../../../components/dashboard/Saveindividual";
 import Withdraw from "../../../components/dashboard/Withdraw";
 import NextTime from "../../../components/dashboard/NextTime";
 import { getReadableDate } from "../../../components/shared/Reuse";
+import EmergencyWithdraw from "../../../components/dashboard/EmergencyWithdraw";
 
 const IndividualSavingsDetail = () => {
   const { id } = useParams();
@@ -42,8 +43,6 @@ const IndividualSavingsDetail = () => {
       }
     );
   };
-
-  console.log("help", selectedGoal);
 
   const goal = getReadableAmount(selectedGoal.goal, selectedGoal.currency);
   const saved = getReadableAmount(selectedGoal.saved, selectedGoal.currency);
@@ -94,6 +93,9 @@ const IndividualSavingsDetail = () => {
           </div>
           <div className="1/5">
             <Withdraw thriftAddress={thriftAddress} />
+          </div>
+          <div className="1/5">
+            <EmergencyWithdraw thriftAddress={thriftAddress} />
           </div>
         </div>
       </section>

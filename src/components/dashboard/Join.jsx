@@ -2,7 +2,7 @@ import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useState, useCallback } from "react";
 import { Contract, ethers } from "ethers";
 import { useAppKitAccount, useAppKitNetwork } from "@reown/appkit/react";
-import { coreTestnet2  } from "@reown/appkit/networks";
+import { hedera   } from "@reown/appkit/networks";
 import { toast } from "react-toastify";
 import { ErrorDecoder } from "ethers-decode-error";
 import abi from "../../constants/groupthriftAbi.json";
@@ -43,7 +43,7 @@ const Join = ({ address }) => {
         return;
       }
 
-      if (Number(chainId) !== Number(coreTestnet2 .id)) {
+      if (Number(chainId) !== Number(hedera  .id)) {
         toast.error("You're not connected to Core Testnet2");
         return;
       }
