@@ -87,7 +87,7 @@ const IndividualSavingsDetail = () => {
           <div className="1/5">
             <Saveindividual
               thriftAddress={thriftAddress}
-              amount={selectedGoal.goal}
+              amount={selectedGoal.amountPerPeriod}
             />
           </div>
           <div className="1/5">

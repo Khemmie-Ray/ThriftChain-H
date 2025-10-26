@@ -9,7 +9,6 @@ import tokenList from "../../../constants/tokenList.json";
 import { formatUnits } from "ethers";
 import Join from "../../../components/dashboard/Join";
 import Loader from "../../../components/loaders/Loader";
-// import GroupNextTime from "../../../components/dashboard/GroupNextTime";
 
 const GroupDetails = () => {
   const { id } = useParams();
@@ -19,7 +18,6 @@ const GroupDetails = () => {
   if (!groupThriftUser || groupThriftUser.length === 0) {
     return <Loader />;
   }
-  console.log(thriftAddress);
 
   const selectedGoal = groupThriftUser?.find(
     (item) => item.goalId === Number(id)
@@ -45,7 +43,6 @@ const GroupDetails = () => {
     const value = parseFloat(formatUnits(rawAmount, decimals));
     return isNaN(value) ? 0 : value;
   };
-  console.log(selectedGoal)
 
   const getReadableDate = (timestamp) => {
     if (!timestamp) return "-";
@@ -78,8 +75,6 @@ const GroupDetails = () => {
   const currency = tokenInfo ? `${tokenInfo.symbol}` : "Unknown Token";
   const amountPerMember = getReadableAmountValue(selectedGoal.amountPerPeriod, selectedGoal.currency) / selectedGoal.totalMember;
   const rounded = amountPerMember.toFixed(2)
-  console.log(rounded)
-
 
   return (
     <main className="">
