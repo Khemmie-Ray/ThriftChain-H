@@ -8,7 +8,7 @@ import { ErrorDecoder } from "ethers-decode-error";
 import abi from "../../constants/groupthriftAbi.json";
 import useSignerOrProvider from "../../hooks/useSignerOrProvider";
 
-const Join = ({ address }) => {
+const Join = ({ thriftAddress }) => {
   let [isOpen, setIsOpen] = useState(false);
   const [member, setMember] = useState("");
   const { isConnected } = useAppKitAccount();
@@ -24,7 +24,7 @@ const Join = ({ address }) => {
     setIsOpen(false);
   }
 
-  const contract = new ethers.Contract(address, abi, signer);
+  const contract = new ethers.Contract(thriftAddress, abi, signer);
 
   const handleJoin = useCallback(
     async () => {
@@ -70,7 +70,7 @@ const Join = ({ address }) => {
         close()
       }
     },
-    [contract, address, chainId]
+    [contract, thriftAddress, chainId]
   );
 
   return (

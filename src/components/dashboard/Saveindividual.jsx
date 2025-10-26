@@ -16,7 +16,6 @@ const Saveindividual = ({ thriftAddress, amount }) => {
   const errorDecoder = ErrorDecoder.create([abi]);
   const { signer } = useSignerOrProvider();
   const [loading, setLoading] = useState(false)
-  console.log(amount)
 
   const contract = new ethers.Contract(thriftAddress, abi, signer);
   const ercContract = new ethers.Contract(

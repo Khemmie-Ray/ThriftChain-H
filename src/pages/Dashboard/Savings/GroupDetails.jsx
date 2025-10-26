@@ -14,13 +14,12 @@ import Loader from "../../../components/loaders/Loader";
 const GroupDetails = () => {
   const { id } = useParams();
   const location = useLocation();
-  const { address } = location.state || {};
+  const { thriftAddress } = location.state || {};
   const { groupThriftUser, loading } = useFetchGroups();
   if (!groupThriftUser || groupThriftUser.length === 0) {
     return <Loader />;
   }
-
-  console.log(address);
+  console.log(thriftAddress);
 
   const selectedGoal = groupThriftUser?.find(
     (item) => item.goalId === Number(id)
@@ -41,6 +40,13 @@ const GroupDetails = () => {
     );
   };
 
+  const getReadableAmountValue = (rawAmount, currencyAddress) => {
+    const decimals = getTokenDecimals(currencyAddress);
+    const value = parseFloat(formatUnits(rawAmount, decimals));
+    return isNaN(value) ? 0 : value;
+  };
+  console.log(selectedGoal)
+
   const getReadableDate = (timestamp) => {
     if (!timestamp) return "-";
     const date = new Date(Number(timestamp) * 1000);
@@ -53,6 +59,7 @@ const GroupDetails = () => {
 
   const goal = getReadableAmount(selectedGoal.goal, selectedGoal.currency);
   const saved = getReadableAmount(selectedGoal.saved, selectedGoal.currency);
+  const amountToSave = getReadableAmount(selectedGoal.amountPerPeriod, selectedGoal.currency);
   const percent =
     (parseFloat(selectedGoal.saved) / parseFloat(selectedGoal.goal)) * 100;
   const frequencyOptions = ["daily", "weekly", "bi-weekly", "monthly"];
@@ -62,17 +69,24 @@ const GroupDetails = () => {
   const rawGoal = parseFloat(formatUnits(selectedGoal.goal, decimals));
   const rawSaved = parseFloat(formatUnits(selectedGoal.saved, decimals));
   const rawLeft = rawGoal - rawSaved;
-
+  const currencyAddress = selectedGoal.currency;
   const displayLeft = rawLeft.toLocaleString(undefined, {
     maximumFractionDigits: 2,
   });
+  const tokenInfo = tokenList[currencyAddress];
+
+  const currency = tokenInfo ? `${tokenInfo.symbol}` : "Unknown Token";
+  const amountPerMember = getReadableAmountValue(selectedGoal.amountPerPeriod, selectedGoal.currency) / selectedGoal.totalMember;
+  const rounded = amountPerMember.toFixed(2)
+  console.log(rounded)
+
 
   return (
     <main className="">
       <DashNav>Details</DashNav>
       <MobileDashNav>Details</MobileDashNav>
       <div className="flex justify-between mt-4 lg:px-8 md:px-8 px-4 items-center flex-col lg:flex-row md:flex-row">
-        <Link to="/dashboard/individual-savings" className="flex items-center">
+        <Link to="/dashboard/group-savings" className="flex items-center">
           <IoIosArrowBack className="mr-3" /> Back
         </Link>
       </div>
@@ -81,13 +95,9 @@ const GroupDetails = () => {
           <h2 className="lg:text-[28px] md:text-[28px] text-[20px] font-[600]">
             {selectedGoal.title}
           </h2>
-          {/* <GroupNextTime
-            thriftAddress={thriftAddress}
-            end={selectedGoal.endDate}
-          /> */}
         </div>
         <div className="flex items-center">
-          <Join address={address} />
+          <Join  thriftAddress={thriftAddress} />
           <button className="bg-linear-to-r from-primary to-lilac font-[500] text-white py-3 px-6 mb-3 text-[12px] flex justify-center rounded-full hover:scale-105 items-center">
             Save
           </button>
@@ -117,6 +127,21 @@ const GroupDetails = () => {
               />
               <p className="text-grey text-[12px]">
                 {percent}% goal reached <span>Individual savings</span>
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center lg:w-[32%] md:w-[32%] w-[100%] mb-3 bg-white rounded-2xl p-3">
+            <div className="bg-[#EAE3F8] flex justify-center items-center p-1 text-primary rounded-full w-[40px] h-[40px] text-2xl mr-2">
+              <BiLayout />
+            </div>
+            <div className="w-[75%]">
+              <h3 className="text-[14px] font-[600]">Amount to Save</h3>
+              <p className="text-[14px] text-grey">
+                {amountToSave} {currency}
+              </p>
+
+              <p className="text-grey text-[12px]">
+                Per Member: {rounded} {currency}
               </p>
             </div>
           </div>

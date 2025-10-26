@@ -19,11 +19,10 @@ const IndividualSavingsDetail = () => {
   const location = useLocation();
   const { thriftAddress } = location.state || {};
   const { singleThriftUser } = useFetchIndividual();
-  // const { address } = useAppKitAccount()
+
   if (!singleThriftUser || singleThriftUser.length === 0) {
     return <Loader />;
   }
-  console.log(thriftAddress);
 
   const selectedGoal = singleThriftUser?.find(
     (item) => item.goalId === Number(id)
@@ -123,7 +122,7 @@ const IndividualSavingsDetail = () => {
                 className="w-full h-2 custom-range"
               />
               <p className="text-grey text-[12px]">
-                {percent}% goal reached <span>Individual savings</span>
+                {Math.round(percent)}% goal reached <span>Individual savings</span>
               </p>
             </div>
           </div>

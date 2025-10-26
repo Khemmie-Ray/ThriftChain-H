@@ -21,20 +21,8 @@ const CreateModule = () => {
   const handleCreate = useCreateThrift();
 
   const handleCreateThrift = async () => {
-    const startDate = Math.floor(new Date(startTime).getTime() / 1000);
+    const startDate = Math.floor(Date.now() / 1000) + 100;
     const endDate = Math.floor(new Date(endTime).getTime() / 1000);
-    // const selected = new Date(startTime);
-    // selected.setHours(0, 0, 0, 0);
-
-    // const today = new Date();
-    // today.setHours(0, 0, 0, 0);
-
-    // if (selected < today) {
-    //   toast.error("Start time cannot be in the past", {
-    //     position: "top-center",
-    //   });
-    //   return;
-    // }
 
     if (startDate <= Math.floor(Date.now() / 1000)) {
       toast.error("Start time cannot be in the past", {

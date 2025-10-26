@@ -23,8 +23,6 @@ const NextTime = ({ thriftAddress, end }) => {
       const tx = await contract().nextSavingTime();
       const nextTimestamp = Number(tx[0]);
       setNextTime(nextTimestamp);
-      console.log(tx)
-      console.log("Next saving time:", getReadableDate(nextTimestamp));
     } catch (err) {
       console.log("Contract error:", err);
     }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { DashNav, Button } from "../../components/shared/Reuse";
-import { ethers} from "ethers";
+import { ethers } from "ethers";
 import useCreateThrift from "../../hooks/useCreateThrift";
 import { toast } from "react-toastify";
 import tokenList from "../../constants/tokenList.json";
@@ -14,12 +14,13 @@ const CreateGroupModule = () => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [participant, setParticipant] = useState(1);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [loading, setloading] = useState(false);
 
   const handleCreate = useCreateThrift();
 
   const handleCreateThrift = async () => {
-    const startDate = Math.floor(new Date(startTime).getTime() / 1000);
+    const startDate = Math.floor(Date.now() / 1000) + 100;
     const endDate = Math.floor(new Date(endTime).getTime() / 1000);
 
     if (startDate <= Math.floor(Date.now() / 1000)) {
@@ -36,6 +37,7 @@ const CreateGroupModule = () => {
       return;
     }
 
+    setloading(true);
     const selectedToken = tokenList[vaultAddress];
     if (!selectedToken) {
       toast.error("Invalid token selected", {
@@ -65,7 +67,8 @@ const CreateGroupModule = () => {
     setEndTime("");
     setVaultAddress("");
     setSavingFrequency("");
-    navigate("/dashboard/group-savings")
+    setloading(false);
+    navigate("/dashboard/group-savings");
   };
 
   return (
@@ -81,9 +84,7 @@ const CreateGroupModule = () => {
 
         <div className="w-[100%] lg:w-[50%] md:w-[60%] mx-auto my-8">
           <div className="my-4">
-            <label className="text-[14px] font-[500]">
-              Savings title 
-            </label>
+            <label className="text-[14px] font-[500]">Savings title</label>
             <input
               type="text"
               value={goalName}
@@ -172,9 +173,11 @@ const CreateGroupModule = () => {
           </div>
           <button
             onClick={handleCreateThrift}
-            className="bg-linear-to-r from-primary to-lilac font-[500] text-white py-3 px-6 mt-3 text-[16px] flex justify-center rounded-full hover:scale-105 items-center w-[100%]"
+            className={`rounded-full text-white py-3 px-6 mt-3 text-[16px] flex justify-center hover:scale-105 items-center w-[100%] font-[500] bg-gradient-to-r hover:from-lightPurple hover:to-lilac cursor-pointer ${
+              loading ? "from-lightPurple to-lilac" : "from-primary to-lilac"
+            }`}
           >
-            Create
+            {!loading ? "Create" : <ButtonSpinner />}
           </button>
         </div>
       </div>
