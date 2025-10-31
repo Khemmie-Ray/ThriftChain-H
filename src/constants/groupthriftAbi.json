@@ -321,6 +321,11 @@
             "internalType": "uint256"
           },
           {
+            "name": "totalPeriods",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
             "name": "totalPartiticipant",
             "type": "uint256",
             "internalType": "uint256"
@@ -402,6 +407,11 @@
           },
           {
             "name": "lasttimeSaved",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "totalPeriods",
             "type": "uint256",
             "internalType": "uint256"
           },
@@ -614,6 +624,11 @@
           },
           {
             "name": "lasttimeSaved",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "totalPeriods",
             "type": "uint256",
             "internalType": "uint256"
           },
@@ -856,6 +871,11 @@
       },
       {
         "name": "lasttimeSaved",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "totalPeriods",
         "type": "uint256",
         "internalType": "uint256"
       },
@@ -1408,6 +1428,11 @@
         "internalType": "uint256"
       },
       {
+        "name": "totalPeriods",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
         "name": "totalPartiticipant",
         "type": "uint256",
         "internalType": "uint256"
@@ -1724,6 +1749,31 @@
       },
       {
         "name": "penalty",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "EndTimeAdjusted",
+    "inputs": [
+      {
+        "name": "goalId",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "newEndTime",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "totalParticipants",
         "type": "uint256",
         "indexed": false,
         "internalType": "uint256"

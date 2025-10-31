@@ -64,16 +64,18 @@ const useCreateThrift = () => {
 
         if (receipt.status === 1) {
           toast.success("New module creation Successful");
-          return;
+          // indicate success to the caller
+          return true;
         }
 
         toast.error("New module creation failed");
-        return;
+        return false;
       } catch (err) {
         const decodedError = await errorDecoder.decode(err);
         toast.error(`New module creation failed - ${decodedError.reason}`, {
           position: "top-center",
         });
+        return false;
       }
     },
     [contract, address, chainId]

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { DashNav } from "../../components/shared/Reuse";
 import { ethers } from "ethers";
 import useCreateThrift from "../../hooks/useCreateThrift";
+import { useThriftData } from "../../context/ThriftContextProvider";
 import { toast } from "react-toastify";
 import tokenList from "../../constants/tokenList.json";
 import { useNavigate } from "react-router";
@@ -19,6 +20,7 @@ const CreateModule = () => {
   const [loading, setloading] = useState(false);
 
   const handleCreate = useCreateThrift();
+  const { refetch } = useThriftData();
 
   const handleCreateThrift = async () => {
     const startDate = Math.floor(Date.now() / 1000) + 100;
@@ -51,7 +53,7 @@ const CreateModule = () => {
       goalAmount,
       selectedToken.decimals
     );
-    await handleCreate(
+    let success = await handleCreate(
       goalName,
       goalAmountInWei.toString(),
       savingFrequency,
@@ -60,6 +62,15 @@ const CreateModule = () => {
       endDate,
       participant
     );
+    // if create was successful, trigger a refetch of thrift proxies so the
+    // individual-savings list shows the newly created module without manual reload
+    try {
+      if (success && typeof refetch === "function") {
+        await refetch();
+      }
+    } catch (e) {
+      console.error("Refetch after create failed", e);
+    }
     setGoalAmount("");
     setGoalName("");
     setParticipant(0);
@@ -106,22 +117,6 @@ const CreateModule = () => {
             />
           </div>
           <div className="my-4">
-            <label className="text-[14px] font-[500]">Saving frequency</label>
-            <select
-              value={savingFrequency}
-              onChange={(e) => setSavingFrequency(e.target.value)}
-              className="p-3 border border-lightgray block w-[100%] text-xs rounded-lg"
-            >
-              <option value="" disabled>
-                Click on the arrow to select an option
-              </option>
-              <option value={0}>Daily</option>
-              <option value={1}>Weekly</option>
-              <option value={2}>Bi-Weekly</option>
-              <option value={3}>Monthly</option>
-            </select>
-          </div>
-          <div className="my-4">
             <label className="text-[14px] font-[500]">Pick Currency</label>
             <select
               value={vaultAddress}
@@ -139,6 +134,22 @@ const CreateModule = () => {
                   </option>
                 );
               })}
+            </select>
+          </div>
+          <div className="my-4">
+            <label className="text-[14px] font-[500]">Saving frequency</label>
+            <select
+              value={savingFrequency}
+              onChange={(e) => setSavingFrequency(e.target.value)}
+              className="p-3 border border-lightgray block w-[100%] text-xs rounded-lg"
+            >
+              <option value="" disabled>
+                Click on the arrow to select an option
+              </option>
+              <option value={0}>Daily</option>
+              <option value={1}>Weekly</option>
+              <option value={2}>Bi-Weekly</option>
+              <option value={3}>Monthly</option>
             </select>
           </div>
           <div className="my-4">

@@ -62,6 +62,15 @@ ThriftChain leverages **Hedera Hashgraph** for fast, low-cost, and eco-friendly 
 
 ---
 
+Architecture
+---
+![Savings](./public/Savings.jpg)
+![Thriftchain](./public/Thriftchain.jpg)
+![UserCreation](./public/UserCreation.jpg)
+![GroupSavings](./public/GroupSavings.jpg)
+![Architecture](./public/Architecture.jpg)
+![Arch](./public/Arch.jpg)
+
 ## 🚀 Deployment & Setup Instructions
 
 Follow these step-by-step instructions to run ThriftChain locally on **Hedera Testnet**:

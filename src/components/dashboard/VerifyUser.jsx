@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useState, useCallback } from "react";
 import { useAppKitAccount, useAppKitNetwork } from "@reown/appkit/react";
-import { hedera   } from "@reown/appkit/networks";
+import { hederaTestnet } from "@reown/appkit/networks";
 import { toast } from "react-toastify";
 import { ErrorDecoder } from "ethers-decode-error";
 import abi from "../../constants/groupthriftAbi.json";
@@ -42,8 +42,8 @@ const VerifyUser = () => {
         return;
       }
 
-      if (Number(chainId) !== Number(hedera  .id)) {
-        toast.error("You're not connected to Core Testnet2");
+      if (Number(chainId) !== Number(hederaTestnet.id)) {
+        toast.error("You're not connected to Hedera testnet");
         return;
       }
 

@@ -24,25 +24,99 @@ const useFetchGroups = () => {
   };
 
   const decodeThrift = (res) => {
-    const raw = itf.decodeFunctionResult("getGroupGoal", res.returnData)[0];
-    const arr = Array.from(raw);
+    // `res` from multicall may be an array-like Proxy where
+    // - res[0] is a boolean success flag
+    // - res[1] is the returned hex data
+    // or it may expose a `returnData` property depending on provider/runtime.
+    // Handle both shapes defensively and return null when decoding fails so
+    // the caller can skip that entry.
+    try {
+      // Safe property accessor for Proxy-like multicall results
+      const safeGet = (obj, key) => {
+        try {
+          if (obj == null) return undefined;
+          return obj[key];
+        } catch (e) {
+          console.warn(`Deferred multicall property access failed for key ${String(key)}`, e);
+          return undefined;
+        }
+      };
 
-    return {
-      creator: arr[0],
-      currency: arr[1],
-      goalId: Number(arr[2]),
-      title: arr[3],
-      goal: arr[4].toString(),
-      saved: arr[5].toString(),
-      amountPerPeriod: arr[6].toString(),
-      isClosed: arr[7],
-      startDate: Number(arr[8]),
-      endDate: Number(arr[9]),
-      lastsaved: Number(arr[10]),
-      totalMember: Number(arr[11]),
-      memberAddress: arr[12],
-      frequency: Number(arr[13]),
-    };
+      // some providers return [success, returnData]
+      const successFlag = safeGet(res, 0);
+      const success = typeof successFlag === "undefined" ? true : !!successFlag;
+
+      if (!success) {
+        console.warn("Multicall call failed for a target, skipping");
+        return null;
+      }
+
+      const returnData = safeGet(res, "returnData") ?? safeGet(res, 1) ?? safeGet(res, "returnData");
+      if (!returnData) {
+        console.warn("No returnData on multicall result, skipping");
+        return null;
+      }
+
+      let raw;
+      try {
+        raw = itf.decodeFunctionResult("getGroupGoal", returnData)[0];
+      } catch (err) {
+        console.error("ABI decode failed for getGroupGoal:", err, String(returnData).slice(0, 200));
+        return null;
+      }
+
+      // Some providers return proxy objects that lazily decode when indexed.
+      // Access indices defensively so a bad/missing index doesn't throw out of this function.
+      const safeAt = (obj, i) => {
+        try {
+          return obj[i];
+        } catch (e) {
+          console.warn(`Deferred ABI decoding failed at index ${i}:`, e);
+          return undefined;
+        }
+      };
+
+      const a0 = safeAt(raw, 0);
+      const a1 = safeAt(raw, 1);
+      const a2 = safeAt(raw, 2);
+      const a3 = safeAt(raw, 3);
+      const a4 = safeAt(raw, 4);
+      const a5 = safeAt(raw, 5);
+      const a6 = safeAt(raw, 6);
+      const a7 = safeAt(raw, 7);
+      const a8 = safeAt(raw, 8);
+      const a9 = safeAt(raw, 9);
+      const a10 = safeAt(raw, 10);
+      const a11 = safeAt(raw, 11);
+      const a12 = safeAt(raw, 12);
+      const a13 = safeAt(raw, 13);
+
+      // If critical fields are missing, skip this entry
+      if (a0 === undefined || a2 === undefined || a4 === undefined) {
+        console.error("Decoded group goal missing critical fields, skipping", { a0, a2, a4 });
+        return null;
+      }
+
+      return {
+        creator: a0,
+        currency: a1,
+        goalId: Number(a2),
+        title: a3,
+        goal: a4 ? a4.toString() : "0",
+        saved: a5 ? a5.toString() : "0",
+        amountPerPeriod: a6 ? a6.toString() : "0",
+        isClosed: a7,
+        startDate: a8 !== undefined ? Number(a8) : 0,
+        endDate: a9 !== undefined ? Number(a9) : 0,
+        lastsaved: a10 !== undefined ? Number(a10) : 0,
+        totalMember: a11 !== undefined ? Number(a11) : 0,
+        memberAddress: a12,
+        frequency: a13 !== undefined ? Number(a13) : 0,
+      };
+    } catch (err) {
+      console.error("decodeThrift unexpected error:", err, res);
+      return null;
+    }
   };
 
   const fetchGroup = useCallback(async () => {
@@ -75,15 +149,44 @@ const useFetchGroups = () => {
         multicallContract.tryAggregate.staticCall(true, groupUserCalls),
       ]);
 
-      const decodedAll = resultAll.map((res, i) => ({
-        ...decodeThrift(res),
-        address: normalizedAllGroup[i], // attach address
-      }));
+      // log a compact, serializable summary (large Proxy objects in devtools are hard to read)
+      console.log("Group fetch results:", {
+        allCount: resultAll.length,
+        userCount: resultUser.length,
+      });
 
-      const decodedUser = resultUser.map((res, i) => ({
-        ...decodeThrift(res),
-        address: normalizedGroupUser[i], // attach address
-      }));
+      // decode results, skipping any failed/undecodable entries
+      const decodedAll = resultAll
+        .map((res, i) => {
+          try {
+            const decoded = decodeThrift(res);
+            if (!decoded) return null;
+            return {
+              ...decoded,
+              address: normalizedAllGroup[i],
+            };
+          } catch (err) {
+            console.error("Failed to decode allGroup entry", { index: i, address: normalizedAllGroup[i], err });
+            return null;
+          }
+        })
+        .filter(Boolean);
+
+      const decodedUser = resultUser
+        .map((res, i) => {
+          try {
+            const decoded = decodeThrift(res);
+            if (!decoded) return null;
+            return {
+              ...decoded,
+              address: normalizedGroupUser[i],
+            };
+          } catch (err) {
+            console.error("Failed to decode groupUser entry", { index: i, address: normalizedGroupUser[i], err });
+            return null;
+          }
+        })
+        .filter(Boolean);
 
       setGroupThriftAll(decodedAll);
       setGroupThriftUser(decodedUser);

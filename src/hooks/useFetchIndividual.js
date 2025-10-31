@@ -106,7 +106,9 @@ const useFetchIndividual = () => {
   return {
     singleThriftAll,
     singleThriftUser,
-    loading
+    loading,
+    // expose fetchSingle so consumers can trigger a refetch when needed
+    refetch: fetchSingle,
   };
 };
 

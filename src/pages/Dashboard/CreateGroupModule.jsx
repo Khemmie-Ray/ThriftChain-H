@@ -5,6 +5,8 @@ import useCreateThrift from "../../hooks/useCreateThrift";
 import { toast } from "react-toastify";
 import tokenList from "../../constants/tokenList.json";
 import { useNavigate } from "react-router";
+import ButtonSpinner from "../../components/loaders/ButtonSpinner";
+
 
 const CreateGroupModule = () => {
   const [goalName, setGoalName] = useState("");
@@ -105,23 +107,7 @@ const CreateGroupModule = () => {
               className="p-3 border border-lightgray block w-[100%] text-xs rounded-lg"
             />
           </div>
-          <div className="my-4">
-            <label className="text-[14px] font-[500]">Saving frequency</label>
-            <select
-              value={savingFrequency}
-              onChange={(e) => setSavingFrequency(e.target.value)}
-              className="p-3 border border-lightgray block w-[100%] text-xs rounded-lg"
-            >
-              <option value="" disabled>
-                Click on the arrow to select an option
-              </option>
-              <option value={0}>Daily</option>
-              <option value={1}>Weekly</option>
-              <option value={2}>Bi-Weekly</option>
-              <option value={3}>Monthly</option>
-            </select>
-          </div>
-          <div className="my-4">
+            <div className="my-4">
             <label className="text-[14px] font-[500]">Pick Currency</label>
             <select
               value={vaultAddress}
@@ -139,6 +125,22 @@ const CreateGroupModule = () => {
                   </option>
                 );
               })}
+            </select>
+          </div>
+          <div className="my-4">
+            <label className="text-[14px] font-[500]">Saving frequency</label>
+            <select
+              value={savingFrequency}
+              onChange={(e) => setSavingFrequency(e.target.value)}
+              className="p-3 border border-lightgray block w-[100%] text-xs rounded-lg"
+            >
+              <option value="" disabled>
+                Click on the arrow to select an option
+              </option>
+              <option value={0}>Daily</option>
+              <option value={1}>Weekly</option>
+              <option value={2}>Bi-Weekly</option>
+              <option value={3}>Monthly</option>
             </select>
           </div>
           <div className="my-4">

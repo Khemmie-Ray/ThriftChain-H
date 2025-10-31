@@ -10,7 +10,7 @@ import useSignerOrProvider from "../../hooks/useSignerOrProvider";
 import { ethers } from "ethers";
 import ButtonSpinner from "../loaders/ButtonSpinner";
 
-const Saveindividual = ({ thriftAddress, amount }) => {
+const Saveindividual = ({ thriftAddress, amount, onSaved }) => {
   const { chainId } = useAppKitNetwork();
   const { address } = useAppKitAccount();
   const errorDecoder = ErrorDecoder.create([abi]);
@@ -70,6 +70,19 @@ const Saveindividual = ({ thriftAddress, amount }) => {
 
       if (receipt.status === 1) {
         toast.success("Saved successfully");
+        // If a parent supplied an onSaved callback, call it so they can re-fetch
+        // otherwise reload the page to refresh data
+        if (typeof onSaved === "function") {
+          try {
+            onSaved();
+          } catch (e) {
+            console.error("onSaved callback threw:", e);
+            // still attempt a fallback reload
+            window.location.reload();
+          }
+        } else {
+          window.location.reload();
+        }
       } else {
         toast.error("Save failed");
       }

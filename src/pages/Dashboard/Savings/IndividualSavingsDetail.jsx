@@ -18,7 +18,7 @@ const IndividualSavingsDetail = () => {
   const { id } = useParams();
   const location = useLocation();
   const { thriftAddress } = location.state || {};
-  const { singleThriftUser } = useFetchIndividual();
+  const { singleThriftUser, refetch } = useFetchIndividual();
 
   if (!singleThriftUser || singleThriftUser.length === 0) {
     return <Loader />;
@@ -88,6 +88,7 @@ const IndividualSavingsDetail = () => {
             <Saveindividual
               thriftAddress={thriftAddress}
               amount={selectedGoal.amountPerPeriod}
+              onSaved={refetch}
             />
           </div>
           <div className="1/5">
@@ -118,6 +119,7 @@ const IndividualSavingsDetail = () => {
                 min="0"
                 max="100"
                 value={percent}
+                readOnly
                 style={{ "--progress": `${percent}%` }}
                 className="w-full h-2 custom-range"
               />

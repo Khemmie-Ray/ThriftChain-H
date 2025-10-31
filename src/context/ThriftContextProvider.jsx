@@ -106,6 +106,8 @@ export const ThriftContextProvider = ({ children }) => {
         allGroup,
         groupUser,
         singleUser,
+        // expose a refetch function so callers can refresh thrift proxies
+        refetch: fetchThrifts,
       }}
     >
       {children}
