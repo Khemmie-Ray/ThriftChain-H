@@ -268,3 +268,6 @@ Pitch Deck: https://www.canva.com/design/DAG3TB0vcQw/AEU0oCfEr-FVbdzdKgUB4g/view
 
 ## Certification: 
 Member 1 (Odegha Clementina) https://drive.google.com/file/d/17DOQQidysJwBJUDo6N6rFJFPT77sUM0B/view?usp=sharing
+
+## Demo Video Link:
+https://youtu.be/fsK2k2IzNuk
