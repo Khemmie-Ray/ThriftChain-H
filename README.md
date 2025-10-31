@@ -60,18 +60,6 @@ ThriftChain leverages **Hedera Hashgraph** for fast, low-cost, and eco-friendly 
 - **Carbon Negative**: Hedera's environmentally sustainable consensus mechanism
 - **Security**: Enterprise-grade security with transparent governance
 
-* ThriftUp Address: 0x473Ffc0f943B1a39576D98537133C6ae688d135e
-
-* MockToken Address: 0xe850E1BF5Cfb124B5D986A301e925aBBaDC34F9C
-
-* Single Thrift Clone: 0x08a1fDE5b005318aFBE418Ca830F9A10B2B03851
-
-* Group Thrift Clone: 0x5DbC27CA1392F158E28bFdf78671B42108C5f3d8
-
-* MinimalProxy Factory deployed at: 0xb05D3bd6F5758DCCAe79C3c7a8701F6419147C5A
-
-* MULTICALL : 0xC0acb216BA2863f30b627512d5a80568BDF2F482
-
 ---
 
 ## 🚀 Deployment & Setup Instructions
@@ -243,6 +231,9 @@ All contracts are deployed on **Hedera Testnet**:
 - **Main Contract**: `0x473Ffc0f943B1a39576D98537133C6ae688d135e`
 - **Multicall2**: `0xC0acb216BA2863f30b627512d5a80568BDF2F482`
 - **Mock Token**: `0xe850E1BF5Cfb124B5D986A301e925aBBaDC34F9C`
+- **Single Thrift Clone**: `0x08a1fDE5b005318aFBE418Ca830F9A10B2B03851`
+- **Group Thrift Clone**: `0x5DbC27CA1392F158E28bFdf78671B42108C5f3d8`
+- **MinimalProxy Factory deployed at**: `0xb05D3bd6F5758DCCAe79C3c7a8701F6419147C5A`
 
 View contracts on [HashScan Testnet Explorer](https://hashscan.io/testnet)
 
